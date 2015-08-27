@@ -37,7 +37,7 @@ endif
 " The flags we're using for ctags.  I wouldn't change these if I were you - the
 " code depends on the output of ctags and if you change these, the code's
 " probably going to throw up all kinds of interesting errors.
-let g:protodef_ctags_flags = '--language-force=c++ --c++-kinds=+p-cdefglmnstuvx --fields=nsm -o -'
+let g:protodef_ctags_flags = '-I noexcept,override,DISABLECOPY+,DISABLEMOVE+ --language-force=c++ --c++-kinds=+p-cdefglmnstuvx --fields=nsm -o -'
 
 " The path to the pullproto.pl script that's included as part of protodef
 if !exists('g:protodefprotogetter')
@@ -175,10 +175,12 @@ function! s:GetFunctionPrototypesForCurrentBuffer(opts)
         let protos = system(g:protodefprotogetter . " " . companion, join(commands, "\n"))
         " pullproto.pl separates the prototypes by '==' on its own line so
         " we'll split by that
+        "
         let ret = split(protos, "==\n")
         " We need to get rid of the newlines at the end of the each of
         " the prototypes
         call map(ret, 'substitute(v:val, "\n$", "", "")')
+
         " Make a stab at sorting the prototypes a bit by trying to put the
         " constructors and destructors at the top with free functions at the
         " bottom - everything else goes in between these bits.
@@ -215,6 +217,10 @@ function! protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer(opts)
         let params = substitute(params, '\s*=\s*[^,]\+', '', 'g') " XXX batz deleted the reliance on ) in the char class
         let params = escape(params, '~*&\\')
         let proto = substitute(proto, '(\_.*$', '(' . params . tail, '') " XXX batz changed to replace the parens/tail stripped off
+
+        " Get rid of C++11 override keywords
+        let proto = substitute(proto, '\s\+override','', '')
+
         " Set up the search expression so that we can check to see if what we're going to
         " put into the buffer is already there or not
         let protosearch = escape(proto, '~*')
@@ -243,11 +249,13 @@ function! protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer(opts)
                     let type = matchstr(rettype, '\(\S\+\)\ze\s*&')
                     call add(full, "    return " . type . '();')
                 elseif rettype != 'void'
-                    call add(full, "    return /* something */;")
+                    call add(full, "    return ")
                 endif
             endif
             " finish it off
             call add(full, "}")
+            call add(full, "")
+            call add(full, "///////////////////////////////////////////////////////////////////////////")
             call add(full, "")
         endif
     endfor
