@@ -49,27 +49,35 @@ endif
 " set of hints for return values.  Chances are it will never actually be "correct"
 " for a real function - you'll always change the default to something else.
 if !exists('g:protodefvaluedefaults')
-    let g:protodefvaluedefaults = 
-                \ {
-                \     'int'                  : '0',
-                \     'unsigned int'         : '0',
-                \     'const int'            : '0',
-                \     'const unsigned int'   : '0',
-                \     'long'                 : '0',
-                \     'unsigned long'        : '0',
-                \     'const long'           : '0',
-                \     'const unsigned long'  : '0',
-                \     'short'                : '0',
-                \     'unsigned short'       : '0',
-                \     'const short'          : '0',
-                \     'const unsigned short' : '0',
-                \     'char'                 : "'a'",
-                \     'unsigned char'        : "'a'",
-                \     'const char'           : "'a'",
-                \     'const unsigned char'  : "'a'",
-                \     'bool'                 : 'true',
-                \     'const bool'           : 'true'
-                \ }
+    let g:protodefvaluedefaults =
+          \ {
+          \     'int'                  : '0',
+          \     'unsigned int'         : '0',
+          \     'const int'            : '0',
+          \     'const unsigned int'   : '0',
+          \     'long'                 : '0',
+          \     'unsigned long'        : '0',
+          \     'const long'           : '0',
+          \     'const unsigned long'  : '0',
+          \     'short'                : '0',
+          \     'unsigned short'       : '0',
+          \     'const short'          : '0',
+          \     'const unsigned short' : '0',
+          \     'char'                 : "'a'",
+          \     'unsigned char'        : '0',
+          \     'const char'           : "'a'",
+          \     'const unsigned char'  : '0',
+          \     'bool'                 : 'true',
+          \     'const bool'           : 'true',
+          \     'uint'                 : '0',
+          \     'const uint'           : '0',
+          \     'ulong'                : '0',
+          \     'const ulong'          : '0',
+          \     'ushort'               : '0',
+          \     'const ushort'         : '0',
+          \     'uchar'                : "0",
+          \     'const uchar'          : "0",
+          \ }
 endif
 
 "
