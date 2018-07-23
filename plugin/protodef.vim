@@ -37,7 +37,7 @@ endif
 " The flags we're using for ctags.  I wouldn't change these if I were you - the
 " code depends on the output of ctags and if you change these, the code's
 " probably going to throw up all kinds of interesting errors.
-let g:protodef_ctags_flags = '-I noexcept,override,DISABLECOPY+,DISABLEMOVE+ --language-force=c++ --c++-kinds=+p-cdefglmnstuvx --fields=nsm -o -'
+let g:protodef_ctags_flags = '-I noexcept,override,DISABLECOPY+,DISABLEMOVE+ --language-force=c++ --c++-kinds=+p-cdefglmnstuvx --sort=no --fields=nsm -o -'
 
 " The path to the pullproto.pl script that's included as part of protodef
 if !exists('g:protodefprotogetter')
@@ -262,8 +262,6 @@ function! protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer(opts)
             endif
             " finish it off
             call add(full, "}")
-            call add(full, "")
-            call add(full, "///////////////////////////////////////////////////////////////////////////")
             call add(full, "")
         endif
     endfor
